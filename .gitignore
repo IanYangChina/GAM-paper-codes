@@ -1,0 +1,13 @@
+# Default ignored files
+.idea
+__pycache__/
+manipulation_project/__pycache__/
+manipulation_project/agent/__pycache__/
+manipulation_project/env/__pycache__/
+manipulation_project/env/assets/__pycache__/
+manipulation_project/graspnet_agent/__pycache__/
+manipulation_project/graspnet_agent/pointnet2/__pycache__/
+manipulation_project/graspnet_agent/graspnet_checkpoints/__pycache__/
+manipulation_project/graspnet_agent/graspnet/__pycache__/
+manipulation_project/rl_agent/__pycache__/
+manipulation_project/rl_agent/utils/__pycache__/
