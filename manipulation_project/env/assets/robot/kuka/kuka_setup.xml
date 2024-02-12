@@ -1,0 +1,33 @@
+<mujoco>
+    <actuator>
+        <position ctrllimited="true" ctrlrange="-0.02 0.2" joint="r_finger_joint" kp="1000" name="gripper_r_finger_joint" forcelimited="true" forcerange="-50 100"/>
+        <position ctrllimited="true" ctrlrange="-0.2 0.02" joint="l_finger_joint" kp="1000" name="gripper_l_finger_joint" forcelimited="true" forcerange="-50 100"/>
+    </actuator>
+    <asset>
+        <mesh name="link_0" file="kuka/link_0.stl" />
+        <mesh name="link_1" file="kuka/link_1.stl" />
+        <mesh name="link_2" file="kuka/link_2.stl" />
+        <mesh name="link_3" file="kuka/link_3.stl" />
+        <mesh name="link_4" file="kuka/link_4.stl" />
+        <mesh name="link_5" file="kuka/link_5.stl" />
+        <mesh name="link_6" file="kuka/link_6.stl" />
+        <mesh name="link_7" file="kuka/link_7.stl" />
+        <mesh name="link_0_vis" file="kuka/link_0_vis.stl" />
+        <mesh name="link_1_vis" file="kuka/link_1_vis.stl" />
+        <mesh name="link_2_vis" file="kuka/link_2_vis.stl" />
+        <mesh name="link_3_vis" file="kuka/link_3_vis.stl" />
+        <mesh name="link_4_vis" file="kuka/link_4_vis.stl" />
+        <mesh name="link_5_vis" file="kuka/link_5_vis.stl" />
+        <mesh name="link_6_vis" file="kuka/link_6_vis.stl" />
+        <mesh name="link_7_vis" file="kuka/link_7_vis.stl" />
+        <mesh name="electric_gripper_base" file="rethink_gripper/electric_gripper_base.stl" />
+        <mesh name="standard_narrow" file="rethink_gripper/standard_narrow.stl" />
+        <mesh name="half_round_tip" file="rethink_gripper/half_round_tip.stl" />
+        <mesh name="connector_plate" file="rethink_gripper/connector_plate.stl" />
+    </asset>
+    <sensor>
+        <force name="force_f" site="r_finger_tip_site"/>
+<!--        <force name="force_ee" site="ft_frame"/>-->
+<!--        <torque name="torque_ee" site="ft_frame"/>-->
+    </sensor>
+</mujoco>

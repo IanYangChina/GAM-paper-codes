@@ -1,0 +1,16 @@
+<mujoco model="base">
+    <asset>
+        <mesh name="electric_gripper_base" file="rethink_gripper/electric_gripper_base.stl" />
+        <mesh name="standard_narrow" file="rethink_gripper/standard_narrow.stl" />
+        <mesh name="half_round_tip" file="rethink_gripper/half_round_tip.stl" />
+        <mesh name="connector_plate" file="rethink_gripper/connector_plate.stl" />
+    </asset>
+    <actuator>
+        <position ctrllimited="true" ctrlrange="-0.02 0.2" joint="r_finger_joint" kp="1000" name="gripper_r_finger_joint" forcelimited="true" forcerange="-20 30"/>
+        <position ctrllimited="true" ctrlrange="-0.2 0.02" joint="l_finger_joint" kp="1000" name="gripper_l_finger_joint" forcelimited="true" forcerange="-20 30"/>
+    </actuator>
+    <sensor>
+        <force name="force_ee" site="ft_frame"/>
+        <torque name="torque_ee" site="ft_frame"/>
+    </sensor>
+</mujoco>

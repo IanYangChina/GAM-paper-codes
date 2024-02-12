@@ -1,0 +1,17 @@
+<mujoco model="hook">
+  <asset>
+    <mesh file="meshes/hook.stl" name="hook_mesh" scale="0.002 0.002 0.002"/>
+    <texture type="skybox" file="../textures/metal.png" name="steel-metal"/>
+    <material name="metal" reflectance="1.0" shininess="1.0" specular="1.0" texrepeat="1 1" texture="steel-metal" texuniform="true"/>
+  </asset>
+  <worldbody>
+    <body>
+      <body name="object">
+        <geom pos="0 0 0" mesh="hook_mesh" type="mesh" solimp="0.998 0.998 0.001" solref="0.001 1" density="100" friction="0.99 0.3 0.1" material="metal" group="0"/>
+      </body>
+      <site type="sphere" rgba="1 0 0 1" size="0.5" pos="0 0 -0.06" name="bottom_site"/>
+      <site type="sphere" rgba="0 1 0 1" size="0.5" pos="0 0 0.04" name="top_site"/>
+      <site type="sphere" rgba="0 0 1 1" size="0.5" pos="0.025 0.025 0" name="horizontal_radius_site"/>
+    </body>
+  </worldbody>
+</mujoco>

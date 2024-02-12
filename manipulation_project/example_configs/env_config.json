@@ -1,0 +1,22 @@
+{
+  "seed": 11,
+  "num_hooks": 2,
+  "randomised_num_hooks": false,
+
+  "primitive": "SixDofMovements",
+  "episode_length": 10,
+
+  "coef_r_distance": 0.0,
+  "coef_r_scene_alteration": -1.0,
+  "r_step_penalty": 0.0,
+  "image_obs": false,
+  "depth": false,
+  "image_obs_size": 84,
+
+  "use_graspnet": false,
+  "use_collected_states": true,
+
+  "sg_data_start_dir_ind": 0,
+  "sg_data_end_dir_ind": 1,
+  "sg_data_end_file_ind": 4
+}

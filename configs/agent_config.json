@@ -1,0 +1,19 @@
+{
+  "prioritised": false,
+  "memory_capacity": 1000000,
+  "critic_learning_rate": 0.0001,
+  "update_interval": 1,
+  "batch_size": 128,
+  "optimization_steps": 1,
+  "discount_factor": 0.99,
+  "exploration_decay_timesteps": 50000,
+  "warmup_step": 2000,
+  "clip_value": [-50, 50],
+  "target_copy_gap": 1000,
+  "training_timesteps": 2000000,
+  "testing_episodes": 30,
+  "testing_gap": 10000,
+  "saving_gap": 500000,
+  "log_interval": 1000,
+  "cuda_device_id": 1
+}

@@ -1,0 +1,23 @@
+{
+  "seed": 11,
+  "num_hooks": 3,
+  "hook_shape": "C",
+
+  "primitive": "SixDofMovements",
+  "grip_ctrl": false,
+  "episode_length": 10,
+
+  "coef_r_distance": 0.0,
+  "coef_r_scene_alteration": -1.0,
+  "image_obs": false,
+  "depth": false,
+  "image_obs_size": 84,
+
+  "end2end_rl": false,
+  "use_graspnet": false,
+  "use_collected_states": true,
+
+  "sg_data_start_dir_ind": 0,
+  "sg_data_end_dir_ind": 4,
+  "sg_data_end_file_ind": 4
+}

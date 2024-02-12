@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--This file is modified based on the OpenAI Gym source code-->
+
+<mujoco>
+	<compiler angle="radian" coordinate="local" meshdir="../robot/meshes" texturedir="../textures"/>
+	<option timestep="0.002">
+		<flag warmstart="enable"/>
+	</option>
+	<size njmax="4000" nconmax="4000"/>
+
+	<include file="../robot/kuka/kuka_setup.xml"/>
+
+	<asset>
+        <texture type="skybox" builtin="gradient" rgb1="0.44 0.85 0.56" rgb2="0.46 0.87 0.58" width="32" height="32"/>
+        <texture name="texture_block" file="block.png" gridsize="3 4" gridlayout=".U..LFRB.D.."/>
+
+        <material name="floor_mat" specular="0" shininess="0.5" reflectance="0" rgba="0.2 0.2 0.2 1"/>
+        <material name="table_mat" specular="0" shininess="0.5" reflectance="0" rgba="0.93 0.93 0.93 1"/>
+        <material name="box_mat" specular="0" shininess="0.5" reflectance="0" rgba="0.8 0.5 0.3 1.0"/>
+
+		<mesh file="../../objects/meshes/hook.stl" name="hook_mesh" scale="0.0015 0.0015 0.0025"/>
+		<texture type="skybox" file="metal.png" name="steel-metal"/>
+		<material name="metal" reflectance="1.0" shininess="1.0" specular="1.0" texrepeat="1 1" texture="steel-metal" texuniform="true"/>
+		<material name="hook1_mat" specular="0" shininess="0.5" reflectance="0" rgba="0.6 0.6 0.6 1"/>
+		<material name="hook2_mat" specular="0" shininess="0.5" reflectance="0" rgba="0.2 0.2 0.2 1"/>
+		<material name="hook3_mat" specular="0" shininess="0.5" reflectance="0" rgba="0.3 0.1 0.1 1"/>
+		<material name="hook4_mat" specular="0" shininess="0.5" reflectance="0" rgba="0.1 0.3 0.1 1"/>
+	</asset>
+
+	<equality>
+		<weld body1="mocap" body2="eef" solimp="0.9 0.95 0.001" solref="0.02 1"/>
+	</equality>
+
+	<worldbody>
+		<body mocap="true" name="mocap" pos="0 0 0">
+			<geom name="mocap0" conaffinity="0" contype="0" pos="0 0 0" rgba="0 0.5 0.5 0" size="0.005 0.005 0.005" type="box"/>
+			<geom name="mocap1" conaffinity="0" contype="0" pos="0 0 0" rgba="1 0 0 0" size="0.05 0.005 0.005" type="box"/>
+			<geom name="mocap2" conaffinity="0" contype="0" pos="0 0 0" rgba="0 1 0 0" size="0.005 0.05 0.005" type="box"/>
+			<geom name="mocap3" conaffinity="0" contype="0" pos="0 0 0" rgba="0 0 1 0" size="0.005 0.005 0.05" type="box"/>
+		</body>
+		<geom name="floor0" pos="0.0 0.0 0" size="0.85 0.7 1" type="plane" condim="3" material="floor_mat"/>
+		<body name="floor0" pos="0.0 0.0 0">
+			<site name="target_gripper" pos="0 0 0" size="0.05 0.05 0.05" rgba="1 0 0 0" type="box"/>
+			<site name="target_b" pos="0 0 0.5" size="0.02 0.02 0.02" rgba="0 0 1 0" type="sphere"/>
+		</body>
+
+		<body pos="0.5 0.0 0.15" name="table_kuka">
+			<geom name="table_kuka" size="0.15 0.35 0.15" type="box" mass="2000" material="table_mat"/>
+			<include file="../robot/kuka/robot.xml"/>
+		</body>
+
+		<body pos="-0.0 0.0 0.2" name="table0">
+			<geom name="table0" size="0.25 0.35 0.2" type="box" mass="2000" material="table_mat"/>
+		</body>
+
+		<body name="ws_box" pos="0.0 0.0 0.405">
+			<geom name="ws_box" size="0.15 0.15 0.005" pos="0 0 0" type="box" material="box_mat"/>
+		</body>
+
+		<body name="hook1" pos="0 0 0.6">
+			<joint name="hook1_joint" pos="0 0 0" type="free" damping="0.01"/>
+			<site type="sphere" rgba="1 0 0 0" size="0.007" pos="0 0 0" name="hook1_centre_site"/>
+			<site type="sphere" rgba="1 0 0 0" size="0.007" pos="0.011 0 0.032" name="hook1_left_site"/>
+			<site type="sphere" rgba="1 0 0 0" size="0.007" pos="0 0 0.057" name="hook1_left_end_site"/>
+			<site type="sphere" rgba="1 0 0 0" size="0.007" pos="-0.011 0 -0.032" name="hook1_right_site"/>
+			<site type="sphere" rgba="1 0 0 0" size="0.007" pos="0 0 -0.057" name="hook1_right_end_site"/>
+			<geom name="hook1_main_body" size="0.025 0.007 0.007" type="box" material="hook1_mat" mass="0.02" group="0" conaffinity="1" contype="1"/>
+			<geom name="hook1_left_body" size="0.007 0.007 0.025" pos="0.018 0 0.032" type="box" material="hook1_mat" mass="0.01" group="0" conaffinity="1" contype="1"/>
+			<geom name="hook1_right_body" size="0.007 0.007 0.025" pos="-0.018 0 -0.032" type="box" material="hook1_mat" mass="0.01" group="0" conaffinity="1" contype="1"/>
+			<geom name="hook1_left_end_body" size="0.025 0.007 0.007" pos="0.0 0 0.064" type="box" material="hook1_mat" mass="0.01" group="0" conaffinity="1" contype="1"/>
+			<geom name="hook1_right_end_body" size="0.025 0.007 0.007" pos="0.0 0 -0.064" type="box" material="hook1_mat" mass="0.01" group="0" conaffinity="1" contype="1"/>
+		</body>
+		<body name="hook2" pos="0.8 -0.1 0.6">
+			<joint name="hook2_joint" pos="0 0 0" type="free" damping="0.01"/>
+			<site type="sphere" rgba="1 1 1 0" size="0.007" pos="0 0 0" name="hook2_centre_site"/>
+			<site type="sphere" rgba="1 1 1 0" size="0.007" pos="0.011 0 0.032" name="hook2_left_site"/>
+			<site type="sphere" rgba="1 1 1 0" size="0.007" pos="0 0 0.057" name="hook2_left_end_site"/>
+			<site type="sphere" rgba="1 1 1 0" size="0.007" pos="-0.011 0 -0.032" name="hook2_right_site"/>
+			<site type="sphere" rgba="1 1 1 0" size="0.007" pos="0 0 -0.057" name="hook2_right_end_site"/>
+			<geom name="hook2_main_body" size="0.025 0.007 0.007" type="box" material="hook2_mat" mass="0.02" group="0" conaffinity="1" contype="1"/>
+			<geom name="hook2_left_body" size="0.007 0.007 0.025" pos="0.018 0 0.032" type="box" material="hook2_mat" mass="0.01" group="0" conaffinity="1" contype="1"/>
+			<geom name="hook2_right_body" size="0.007 0.007 0.025" pos="-0.018 0 -0.032" type="box" material="hook2_mat" mass="0.01" group="0" conaffinity="1" contype="1"/>
+			<geom name="hook2_left_end_body" size="0.025 0.007 0.007" pos="0.0 0 0.064" type="box" material="hook2_mat" mass="0.01" group="0" conaffinity="1" contype="1"/>
+			<geom name="hook2_right_end_body" size="0.025 0.007 0.007" pos="0.0 0 -0.064" type="box" material="hook2_mat" mass="0.01" group="0" conaffinity="1" contype="1"/>
+		</body>
+		<body name="hook3" pos="0.8 0.1 0.6">
+			<joint name="hook3_joint" pos="0 0 0" type="free" damping="0.01"/>
+			<site type="sphere" rgba="1 1 1 0" size="0.007" pos="0 0 0" name="hook3_centre_site"/>
+			<site type="sphere" rgba="1 1 1 0" size="0.007" pos="0.011 0 0.032" name="hook3_left_site"/>
+			<site type="sphere" rgba="1 1 1 0" size="0.007" pos="0 0 0.057" name="hook3_left_end_site"/>
+			<site type="sphere" rgba="1 1 1 0" size="0.007" pos="-0.011 0 -0.032" name="hook3_right_site"/>
+			<site type="sphere" rgba="1 1 1 0" size="0.007" pos="0 0 -0.057" name="hook3_right_end_site"/>
+			<geom name="hook3_main_body" size="0.025 0.007 0.007" type="box" material="hook3_mat" mass="0.02" group="0" conaffinity="1" contype="1"/>
+			<geom name="hook3_left_body" size="0.007 0.007 0.025" pos="0.018 0 0.032" type="box" material="hook3_mat" mass="0.01" group="0" conaffinity="1" contype="1"/>
+			<geom name="hook3_right_body" size="0.007 0.007 0.025" pos="-0.018 0 -0.032" type="box" material="hook3_mat" mass="0.01" group="0" conaffinity="1" contype="1"/>
+			<geom name="hook3_left_end_body" size="0.025 0.007 0.007" pos="0.0 0 0.064" type="box" material="hook3_mat" mass="0.01" group="0" conaffinity="1" contype="1"/>
+			<geom name="hook3_right_end_body" size="0.025 0.007 0.007" pos="0.0 0 -0.064" type="box" material="hook3_mat" mass="0.01" group="0" conaffinity="1" contype="1"/>
+		</body>
+		<body name="hook4" pos="0.8 0.1 0.6">
+			<joint name="hook4_joint" pos="0 0 0" type="free" damping="0.01"/>
+			<site type="sphere" rgba="1 1 1 0" size="0.007" pos="0 0 0" name="hook4_centre_site"/>
+			<site type="sphere" rgba="1 1 1 0" size="0.007" pos="0.011 0 0.032" name="hook4_left_site"/>
+			<site type="sphere" rgba="1 1 1 0" size="0.007" pos="0 0 0.057" name="hook4_left_end_site"/>
+			<site type="sphere" rgba="1 1 1 0" size="0.007" pos="-0.011 0 -0.032" name="hook4_right_site"/>
+			<site type="sphere" rgba="1 1 1 0" size="0.007" pos="0 0 -0.057" name="hook4_right_end_site"/>
+			<geom name="hook4_main_body" size="0.025 0.007 0.007" type="box" material="hook4_mat" mass="0.02" group="0" conaffinity="1" contype="1"/>
+			<geom name="hook4_left_body" size="0.007 0.007 0.025" pos="0.018 0 0.032" type="box" material="hook4_mat" mass="0.01" group="0" conaffinity="1" contype="1"/>
+			<geom name="hook4_right_body" size="0.007 0.007 0.025" pos="-0.018 0 -0.032" type="box" material="hook4_mat" mass="0.01" group="0" conaffinity="1" contype="1"/>
+			<geom name="hook4_left_end_body" size="0.025 0.007 0.007" pos="0.0 0 0.064" type="box" material="hook4_mat" mass="0.01" group="0" conaffinity="1" contype="1"/>
+			<geom name="hook4_right_end_body" size="0.025 0.007 0.007" pos="0.0 0 -0.064" type="box" material="hook4_mat" mass="0.01" group="0" conaffinity="1" contype="1"/>
+		</body>
+
+		<light directional="true" ambient="0.2 0.2 0.2" diffuse="0.8 0.8 0.8" specular="0.3 0.3 0.3" castshadow="false" pos="0 0 4" dir="0 0 -1" name="light0"/>
+		<camera mode="fixed" name="frontview" pos="-0.2 0 0.8" quat="0.69034553 0.15304592 -0.15304592 -0.69034553"/>
+		<camera mode="fixed" name="topview" pos="0.1 0 0.8" quat="0.70441603 0.06162842 0.06162842 0.70441603"/>
+		<camera mode="fixed" name="straighttopview" pos="0.0 0 0.7" quat="0.70710678 0.         0.         0.70710678"/>
+		<camera mode="fixed" name="backview" pos="-0.4 0 0.55" quat="0.54167522 0.45451948 -0.45451948 -0.54167522"/>
+		<camera mode="fixed" name="wideview" pos="-0.6 0 1.2" quat="0.67437972 0.21263111 -0.21263111 -0.67437972"/>
+		<camera mode="fixed" name="sideview1" pos="0 0.4 0.55" quat="4.69066938e-17  3.93593894e-17 -6.42787610e-01 -7.66044443e-01"/>
+		<camera mode="fixed" name="sideview2" pos="0 -0.4 0.55" quat="0.76604444 0.64278761 0.         0.        "/>
+	</worldbody>
+</mujoco>

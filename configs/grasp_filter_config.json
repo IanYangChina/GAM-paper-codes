@@ -1,0 +1,25 @@
+{
+  "num_hooks": 2,
+  "training": true,
+  "recurrent_loading": true,
+
+  "grasp_pose_dim": 12,
+  "grasp_feature_dim": 256,
+
+  "learning_rate": 0.001,
+  "batch_size": 1024,
+  "good_data_portion": 0.5,
+  "num_epoch": 5001,
+  "switch_file_interval": 1,
+  "saving_interval": 1000,
+  "log_interval": 10,
+
+  "sg_data_start_dir_ind": 0,
+  "sg_data_end_dir_ind": 1,
+  "sg_data_end_file_ind": 4,
+
+  "condition": 0,
+  "threshold_1": 0.6,
+  "threshold_2": 0.3,
+  "threshold_3": 0.2
+}

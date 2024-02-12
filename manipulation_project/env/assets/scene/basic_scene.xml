@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--This file is modified based on the OpenAI Gym source code-->
+
+<mujoco>
+	<compiler angle="radian" coordinate="local" meshdir="../robot/meshes" texturedir="../textures"/>
+	<option timestep="0.002">
+		<flag warmstart="enable"/>
+	</option>
+	<size njmax="800" nconmax="800"/>
+
+	<include file="../robot/gripper/rethink_gripper_setup.xml"/>
+
+	<asset>
+        <texture type="skybox" builtin="gradient" rgb1="0.44 0.85 0.56" rgb2="0.46 0.87 0.58" width="32" height="32"/>
+        <texture name="texture_block" file="block.png" gridsize="3 4" gridlayout=".U..LFRB.D.."/>
+
+        <material name="floor_mat" specular="0" shininess="0.5" reflectance="0" rgba="0.2 0.2 0.2 1"/>
+        <material name="table_mat" specular="0" shininess="0.5" reflectance="0" rgba="0.93 0.93 0.93 1"/>
+        <material name="box_mat" specular="0" shininess="0.5" reflectance="0" rgba="0.8 0.5 0.3 1.0"/>
+
+		<mesh file="../../objects/meshes/hook.stl" name="hook_mesh" scale="0.0015 0.0015 0.0025"/>
+		<texture type="skybox" file="metal.png" name="steel-metal"/>
+		<material name="metal" reflectance="1.0" shininess="1.0" specular="1.0" texrepeat="1 1" texture="steel-metal" texuniform="true"/>
+		<material name="hook1_mat" specular="0" shininess="0.5" reflectance="0" rgba="0.8 0.8 0.8 1"/>
+		<material name="hook2_mat" specular="0" shininess="0.5" reflectance="0" rgba="0.2 0.2 0.2 1"/>
+	</asset>
+
+	<equality>
+		<weld body1="mocap" body2="eef" solimp="0.9 0.95 0.001" solref="0.02 1"/>
+	</equality>
+
+	<worldbody>
+		<body mocap="true" name="mocap" pos="0 0 0">
+			<geom conaffinity="0" contype="0" pos="0 0 0" rgba="0 0.5 0.5 0.9" size="0.005 0.005 0.005" type="box"/>
+			<geom conaffinity="0" contype="0" pos="0 0 0" rgba="1 0 0 0.1" size="0.05 0.005 0.005" type="box"/>
+			<geom conaffinity="0" contype="0" pos="0 0 0" rgba="0 1 0 0.1" size="0.005 0.05 0.005" type="box"/>
+			<geom conaffinity="0" contype="0" pos="0 0 0" rgba="0 0 1 0.1" size="0.005 0.005 0.05" type="box"/>
+		</body>
+		<geom name="floor0" pos="0.0 0.0 0" size="0.85 0.7 1" type="plane" condim="3" material="floor_mat"/>
+		<body name="floor0" pos="0.0 0.0 0">
+			<site name="target_gripper" pos="0 0 0" size="0.05 0.05 0.05" rgba="1 0 0 0" type="box"/>
+			<site name="target_b" pos="0 0 0.5" size="0.02 0.02 0.02" rgba="0 0 1 0" type="sphere"/>
+		</body>
+
+		<include file="../robot/gripper/rethink_gripper.xml"/>
+
+		<body pos="-0.0 0.0 0.2" name="table0">
+			<geom size="0.25 0.35 0.2" type="box" mass="2000" material="table_mat"/>
+		</body>
+
+		<body name="box" pos="0.0 0.0 0.405">
+			<geom size="0.15 0.15 0.005" pos="0 0 0" type="box" material="box_mat"/>
+<!--			<geom size="0.15 0.005 0.025" pos="0 0.145 0.025" type="box" material="box_mat"/>-->
+<!--			<geom size="0.15 0.005 0.025" pos="0 -0.145 0.025" type="box" material="box_mat"/>-->
+<!--			<geom size="0.005 0.15 0.025" pos="0.145 0 0.025" type="box" material="box_mat"/>-->
+<!--			<geom size="0.005 0.15 0.025" pos="-0.145 0 0.025" type="box" material="box_mat"/>-->
+		</body>
+
+		<body name="hook1" pos="0 0 0.45">
+			<joint name="hook1_joint" pos="0 0 0" type="free" damping="0.01"/>
+			<site type="sphere" rgba="1 1 1 1" size="0.007" pos="0 0 0" name="hook1_centre_site"/>
+			<site type="sphere" rgba="1 1 1 1" size="0.007" pos="0.036 0 0.018" name="hook1_left_site"/>
+			<site type="sphere" rgba="1 1 1 1" size="0.007" pos="0.043 0 0.025" name="hook1_left_site_grip"/>
+			<site type="sphere" rgba="1 1 1 1" size="0.007" pos="-0.036 0 0.018" name="hook1_right_site"/>
+			<site type="sphere" rgba="1 1 1 1" size="0.007" pos="-0.043 0 0.025" name="hook1_right_site_grip"/>
+<!--			<site type="sphere" rgba="1 1 1 1" size="0.007" pos="0.02 0 0.036" name="hook1_left_front_site"/>-->
+<!--			<site type="sphere" rgba="1 1 1 1" size="0.007" pos="-0.02 0 0.036" name="hook1_right_front_site"/>-->
+			<geom size="0.05 0.007 0.007" type="box" condim="3" material="hook1_mat" mass="0.01" />
+			<geom size="0.007 0.007 0.025" pos="0.043 0 0.018" type="box" condim="3" material="hook1_mat" mass="0.01" />
+			<geom size="0.007 0.007 0.025" pos="-0.043 0 0.018" type="box" condim="3" material="hook1_mat" mass="0.01" />
+<!--			<geom size="0.015 0.007 0.007" pos="0.035 0 0.036" type="box" condim="3" material="hook1_mat" mass="0.01" />-->
+<!--			<geom size="0.015 0.007 0.007" pos="-0.035 0 0.036" type="box" condim="3" material="hook1_mat" mass="0.01" />-->
+		</body>
+		<body name="hook2" pos="0 0 0.45">
+			<joint name="hook2_joint" pos="0 0 0" type="free" damping="0.01"/>
+			<site type="sphere" rgba="1 1 1 1" size="0.007" pos="0 0 0" name="hook2_centre_site"/>
+			<site type="sphere" rgba="1 1 1 1" size="0.007" pos="0.036 0 0.018" name="hook2_left_site"/>
+			<site type="sphere" rgba="1 1 1 1" size="0.007" pos="-0.036 0 0.018" name="hook2_right_site"/>
+<!--			<site type="sphere" rgba="1 1 1 1" size="0.007" pos="0.02 0 0.036" name="hook2_left_front_site"/>-->
+<!--			<site type="sphere" rgba="1 1 1 1" size="0.007" pos="-0.02 0 0.036" name="hook2_right_front_site"/>-->
+			<geom size="0.05 0.007 0.007" type="box" condim="3" material="hook2_mat" mass="0.01" />
+			<geom size="0.007 0.007 0.025" pos="0.043 0 0.018" type="box" condim="3" material="hook2_mat" mass="0.01" />
+			<geom size="0.007 0.007 0.025" pos="-0.043 0 0.018" type="box" condim="3" material="hook2_mat" mass="0.01" />
+<!--			<geom size="0.015 0.007 0.007" pos="0.035 0 0.036" type="box" condim="3" material="hook2_mat" mass="0.01" />-->
+<!--			<geom size="0.015 0.007 0.007" pos="-0.035 0 0.036" type="box" condim="3" material="hook2_mat" mass="0.01" />-->
+		</body>
+
+		<light directional="true" ambient="0.2 0.2 0.2" diffuse="0.8 0.8 0.8" specular="0.3 0.3 0.3" castshadow="false" pos="0 0 4" dir="0 0 -1" name="light0"/>
+		<camera mode="fixed" name="frontview" pos="0.2 0 0.8" quat="0.69034553 0.15304592 0.15304592 0.69034553"/>
+		<camera mode="fixed" name="topview" pos="0.1 0 0.8" quat="0.70441603 0.06162842 0.06162842 0.70441603"/>
+		<camera mode="fixed" name="backview" pos="-0.2 0 0.8" quat="0.69034553 0.15304592 -0.15304592 -0.69034553"/>
+		<camera mode="fixed" name="wideview" pos="0.6 0 1.4" quat="0.67437972 0.21263111 0.21263111 0.67437972"/>
+		<camera mode="fixed" name="sideview" pos="0.4 0 0.6" quat="0.54167522 0.45451948 0.45451948 0.54167522"/>
+<!--        <body name="cam_frame_vis" pos="0.2 0 0.8" quat="0.69034553 0.15304592 0.15304592 0.69034553">-->
+<!--            <site name="cam_frame_site" pos="0 0 0" size="0.01 0.01 0.01" rgba="1 0 0 1" type="sphere" group="1"/>-->
+<!--            <site name="cam_frame_x" pos="0.03 0 0" size="0.03 0.005 0.005" rgba="1 0 0 0.5" type="box" group="1"/>-->
+<!--            <site name="cam_frame_y" pos="0 0.03 0" size="0.005 0.03 0.005" rgba="0 1 0 0.5" type="box" group="1"/>-->
+<!--            <site name="cam_frame_z" pos="0 0 0.03" size="0.005 0.005 0.03" rgba="0 0 1 0.5" type="box" group="1"/>-->
+<!--        </body>-->
+<!--		<body name="world_frame_vis" pos="0 0 0">-->
+<!--            <site name="world_frame_site" pos="0 0 0" size="0.01 0.01 0.01" rgba="1 0 0 1" type="sphere" group="1"/>-->
+<!--            <site name="world_frame_x" pos="0.03 0 0" size="0.03 0.005 0.005" rgba="1 0 0 0.5" type="box" group="1"/>-->
+<!--            <site name="world_frame_y" pos="0 0.03 0" size="0.005 0.03 0.005" rgba="0 1 0 0.5" type="box" group="1"/>-->
+<!--            <site name="world_frame_z" pos="0 0 0.03" size="0.005 0.005 0.03" rgba="0 0 1 0.5" type="box" group="1"/>-->
+<!--        </body>-->
+<!--		<body name="gg_frame_vis" pos="0.08371 0.06201 0.40789" quat="-0.22715 0.43981 0.84220 0.21369">-->
+<!--            <site name="gg_frame_site" pos="0 0 0" size="0.01 0.01 0.01" rgba="1 0 0 1" type="sphere" group="1"/>-->
+<!--            <site name="gg_frame_x" pos="0.03 0 0" size="0.03 0.005 0.005" rgba="1 0 0 0.5" type="box" group="1"/>-->
+<!--            <site name="gg_frame_y" pos="0 0.03 0" size="0.005 0.03 0.005" rgba="0 1 0 0.5" type="box" group="1"/>-->
+<!--            <site name="gg_frame_z" pos="0 0 0.03" size="0.005 0.005 0.03" rgba="0 0 1 0.5" type="box" group="1"/>-->
+<!--        </body>-->
+	</worldbody>
+</mujoco>
