@@ -1,4 +1,5 @@
 ## GAM: General Affordance-based Manipulation for Robotic Object Disentangling Tasks
+- [Paper](https://www.sciencedirect.com/science/article/pii/S0925231224001577)
 
 ### Installation guide
 - Create conda env with the provided environment.yml file.
